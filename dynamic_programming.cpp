@@ -143,3 +143,164 @@ void testDynamicProgramming() {
 	std::cout << "\n The paths(m=" << m << ", n=" << n << ")  number with obstacles is : " << path;
 	
 }
+
+
+/*
+* Starting point is m[0][0], need to find a path go to m[9][9]. 
+* 0 means OK, 1 means cannot go there, boundary is 0 and 9, cannot go beyond boundary.
+* Each step can be made horizontally or vertically for one more grid (diagonal jump is not allowed).
+* Your program should print a series of grid coordinates that start from m[0][0] and go to m[9][9]
+* Hint: No need to find the shortest path, only need to find one path that gets you to desitination
+*/
+
+#define N 10
+
+int isSafe(int(*maze)[N], int x, int y)
+{
+	if (x >= 0 && x < N && y >= 0 && y < N && !(maze[x][y]) )
+		return 1;
+	return 0;
+}
+
+void Maze(int(*maze)[N], int x, int y, int(*sol)[N])
+{
+	int i, j;
+	if (x == N - 1 && y == N - 1)
+	{
+		std::cout << "\n\nSolution\n\n";
+		sol[x][y] = 2;
+		for (i = 0; i < N; i++)
+		{
+			for (j = 0; j < N; j++)
+			{
+				std::cout << sol[i][j];
+			}
+			std::cout << std::endl;
+		}
+	}
+	else
+	{
+		if (isSafe(maze, x, y) && sol[N - 1][N - 1] != 2) // 
+		{
+			std::cout << " (" << x << "," << y << ")";
+
+			sol[x][y] = 2;
+
+			/*int direct[4] = {0};
+			int tmpDir, dirNum=0;
+			while (dirNum < 4) {
+				tmpDir = std::rand() % 4;
+				std::cout << "(n-" << dirNum << ",d-" << tmpDir << ")";
+
+				if (tmpDir == 0 && direct[0] == 0){
+					direct[0]++;
+					dirNum++;
+					if (isSafe(maze, x + 1, y))Maze(maze, x + 1, y, sol);
+				}
+
+				if (tmpDir == 1 && direct[1] == 0) {
+					direct[1]++;
+					dirNum++;
+					if (isSafe(maze, x, y + 1))Maze(maze, x, y + 1, sol);
+				}
+
+				if (tmpDir == 2 && direct[2] == 0) {
+					direct[2]++;
+					dirNum++;
+					if (isSafe(maze, x - 1, y))Maze(maze, x - 1, y, sol);
+				}
+
+				if (tmpDir == 3 && direct[3] == 0) {
+					direct[3]++;
+					dirNum++;
+					if (isSafe(maze, x, y - 1))Maze(maze, x, y - 1, sol);
+				}
+			} */
+			if (isSafe(maze, x + 1, y))Maze(maze, x + 1, y, sol);
+			if (isSafe(maze, x, y + 1))Maze(maze, x, y + 1, sol);
+			if (isSafe(maze, x - 1, y))Maze(maze, x - 1, y, sol);
+			if (isSafe(maze, x, y - 1))Maze(maze, x, y - 1, sol);
+
+			sol[x][y] = 0;
+			// if noexist （&& sol[N - 1][N - 1] != 2） and setting sol[x][y] = 0;, the program will deadlooped, because the different moving-branch will go an go
+		}
+	}
+}
+
+
+void Maze2(int(*maze)[N], int x, int y, int(*sol)[N])
+{
+	static int i, j;
+	if (x == N - 1 && y == N - 1)
+	{
+		std::cout << "\n\nSolution 2:\n\n";
+		sol[x][y] = 1;
+		for (i = 0; i < N; i++)
+		{
+			for (j = 0; j < N; j++)
+				std::cout << sol[i][j];
+
+			std::cout << std::endl;
+		}
+	}
+	else
+	{
+		if (isSafe(maze, x, y))
+		{
+			sol[x][y] = 1;
+
+			Maze2(maze, x + 1, y, sol);
+			Maze2(maze, x, y + 1, sol);
+
+			// only move forward, in some case it need to backward
+
+			sol[x][y] = 0;
+		}
+	}
+}
+
+
+void testFindWay() {
+
+	//必须指明数组的列数
+	int maze[N][N]= { {0,0,1,0,0,0,0,0,0,0},
+					  {0,0,1,0,0,0,0,0,0,0},
+					  {0,1,0,0,0,0,0,0,0,0},
+					  {0,1,0,0,1,0,0,0,0,0},
+					  {0,0,0,0,1,0,0,0,0,0},
+					  {0,1,1,0,1,1,0,0,0,0},
+					  {0,1,0,0,0,0,0,0,0,0},
+					  {0,1,0,0,0,0,1,0,0,0},
+					  {0,1,0,0,0,0,0,0,0,0},
+					  {0,1,0,0,0,0,0,1,0,0} };
+
+	int solu[N][N] = { 0 };
+
+	std::srand(std::time(nullptr));
+
+	std::cout << "\n The paths is : " << std::endl;
+
+	Maze(maze, 0, 0, maze);
+	//Maze2(maze, 0, 0, maze);
+	//Maze(maze, 0, 0, solu);  //0xC00000FD: Stack overflow 
+
+	std::cout << "\n\nFinal:\n\n";
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			std::cout << maze[i][j];
+		}
+		std::cout << std::endl;
+	}
+
+	std::cout << "\n\nFinal solution:\n\n";
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < N; j++)
+		{
+			std::cout << solu[i][j];
+		}
+		std::cout << std::endl;
+	}
+}

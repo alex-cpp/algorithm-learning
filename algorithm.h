@@ -9,4 +9,10 @@ void testFindCommon();
 
 void testDynamicProgramming();
 
+void KMPTest();
+
+void testFindWay();
+
+void implementCppTest();
+
 

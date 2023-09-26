@@ -26,11 +26,14 @@ int main() {
     std::cout << "char x = 200, actually it is " << int(x) << " char y = 300, actually it is " << int(y) << "\n";
 
     while (1) {
-        std::cout << "\tAvailable modes\t\n\n";
+        std::cout << "\n\tAvailable modes\t\n\n";
         std::cout << "0. exit \n1. Self-tests Quick sort mode\n2. Interactive Quick sort mode\n3. test max and second";
         std::cout << "\n4. test FindCommon";
         std::cout << "\n5. test Dynamic Programming";
-        int choiseMax = 5;
+        std::cout << "\n6. test string";
+        std::cout << "\n7. find way";
+        std::cout << "\n8. implement cpp";
+        int choiseMax = 8;
 
         std::cout << "\nChoose a mode: ";
         std::cin >> choice;
@@ -76,9 +79,17 @@ int main() {
             testFindCommon();  // test finding common element
         }
         else if (choice == 5) {
-            testDynamicProgramming();  // test finding common element
+            testDynamicProgramming();  // test dynamic programming
         }
-
+        else if (choice == 6) {
+            KMPTest();  // test string
+        }
+        else if (choice == 7) {
+            testFindWay();  // find way
+        }
+        else if (choice == 8) {
+            implementCppTest();  // implement cpp
+        }
     }
 
     return 0;
