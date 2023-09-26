@@ -7,4 +7,6 @@ void testMaxandSecond();
 
 void testFindCommon();
 
+void testDynamicProgramming();
+
 

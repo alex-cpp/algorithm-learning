@@ -29,7 +29,8 @@ int main() {
         std::cout << "\tAvailable modes\t\n\n";
         std::cout << "0. exit \n1. Self-tests Quick sort mode\n2. Interactive Quick sort mode\n3. test max and second";
         std::cout << "\n4. test FindCommon";
-        int choiseMax = 4;
+        std::cout << "\n5. test Dynamic Programming";
+        int choiseMax = 5;
 
         std::cout << "\nChoose a mode: ";
         std::cin >> choice;
@@ -72,7 +73,10 @@ int main() {
             testMaxandSecond();  // test max and  second
         }
         else if (choice == 4) {
-            testFindCommon();  // test max and  second
+            testFindCommon();  // test finding common element
+        }
+        else if (choice == 5) {
+            testDynamicProgramming();  // test finding common element
         }
 
     }
